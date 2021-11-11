@@ -27,7 +27,7 @@ import {
 } from './styles';
 
 type NavigationProps = {
-  navigate: (screen: string) => void;
+  navigate: (screen: string, {}) => void;
   goBack: () => void;
 }
 
@@ -41,7 +41,7 @@ export function CarDetails() {
   const { car } = route.params as Params;
 
   function handleScheduling() {
-    navigation.navigate('Scheduling');
+    navigation.navigate('Scheduling', { car });
   }
 
   function handleBack() {
