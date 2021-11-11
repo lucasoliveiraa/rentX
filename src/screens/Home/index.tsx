@@ -19,7 +19,7 @@ import {
 import { Load } from '../../components/Load';
 
 type NavigationProps = {
-  navigate: (screen: string) => void;
+  navigate: (screen: string, {}) => void;
 }
 
 export function Home() {
@@ -42,8 +42,8 @@ export function Home() {
     loadData();
   }, []);
 
-  function handleCarDetails() {
-    navigation.navigate('CarDetails');
+  function handleCarDetails(car: CarDTO) {
+    navigation.navigate('CarDetails', { car });
   }
 
   return (
@@ -71,7 +71,7 @@ export function Home() {
           data={cars}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <Car data={item} onPress={handleCarDetails}/>
+            <Car data={item} onPress={() => handleCarDetails(item)}/>
           )}
         />
       }
