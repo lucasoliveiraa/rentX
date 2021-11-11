@@ -105,14 +105,14 @@ export const DateInfo = styled.View`
 `;
 
 export const DateTitle = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.secundary_500};
-  color: ${({ theme }) => theme.colors.text};
+  font-family: ${({ theme }) => theme.fonts.primary_500};
+  color: ${({ theme }) => theme.colors.text_detail};
   font-size: ${RFValue(10)}px;
 `;
 
 export const DateValue = styled.Text`
   font-family: ${({ theme }) => theme.fonts.primary_500};
-  color: ${({ theme }) => theme.colors.shape};
+  color: ${({ theme }) => theme.colors.title};
   font-size: ${RFValue(15)}px;
 `;
 
