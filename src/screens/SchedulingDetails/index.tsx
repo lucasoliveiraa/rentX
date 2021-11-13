@@ -1,10 +1,10 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Feather } from '@expo/vector-icons';
 import { useTheme } from 'styled-components';
-import { RFValue } from 'react-native-responsive-fontsize';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Alert, StatusBar } from 'react-native';
 import { format } from 'date-fns';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 import { getPlatformDate } from '../../utils/getPlatformDate';
 import { CarDTO } from '../../dtos/CarDTO';
@@ -57,6 +57,7 @@ interface RentalPeriod {
 }
 
 export function SchedulingDetails() {
+  const [ loading, setLoading ] = useState(false);
   const [ rentalPeriod, setRentalPeriod ] = useState<RentalPeriod>({} as RentalPeriod);
 
   const theme = useTheme();
@@ -68,6 +69,8 @@ export function SchedulingDetails() {
   const navigation = useNavigation<NavigationProps>();
 
   async function handleConfirm() {
+    setLoading(true);
+
     const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
 
     const unavailable_dates = [
@@ -75,13 +78,22 @@ export function SchedulingDetails() {
       ...dates,
     ];
 
+    await api.post('/schedules_byuser', {
+      user_id: 1,
+      car,
+      startDate: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
+      endDate: format(getPlatformDate(new Date(dates[dates.length - 1])), 'dd/MM/yyyy'),
+    });
+
     api.put(`/schedules_bycars/${car.id}`, {
       id: car.id,
       unavailable_dates
     }).then(() => 
         navigation.navigate('SchedulingComplete')
-      ).catch(() => 
-        Alert.alert('Nao foi possivel confirmar o agendamento')
+      ).catch(() => {
+          setLoading(false);
+          Alert.alert('Nao foi possivel confirmar o agendamento')
+        }
       )
   }
 
@@ -176,6 +188,8 @@ export function SchedulingDetails() {
           title="Alugar agora"
           color={theme.colors.success} 
           onPress={handleConfirm}
+          enabled={!loading}
+          loading={loading}
         />
       </Footer>
     </Container>
