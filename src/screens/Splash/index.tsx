@@ -8,6 +8,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { StatusBar } from "react-native";
 
 import BrandSvg from "../../assets/brand.svg";
 import LogoSvg from "../../assets/logo.svg";
@@ -77,6 +78,11 @@ export function Splash() {
 
   return (
     <Container>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
       <Animated.View style={[brandStyle, { position: "absolute" }]}>
         <BrandSvg width={80} height={50} />
       </Animated.View>
