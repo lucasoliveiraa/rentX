@@ -6,10 +6,8 @@ import { useTheme } from "styled-components";
 import { Container, Title } from "./styles";
 
 interface Props extends RectButtonProps {
-  onPress: () => void;
   title: string;
   color?: string;
-  enabled?: boolean;
   loading?: boolean;
   light?: boolean;
 }
