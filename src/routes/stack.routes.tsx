@@ -9,6 +9,7 @@ import { SchedulingComplete } from "../screens/SchedulingComplete";
 import { MyCars } from "../screens/MyCars";
 import { Splash } from "../screens/Splash";
 import { SignIn } from "../screens/SignIn";
+import { FristStep } from "../screens/SignUp/FristStep";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ export function StackRoutes() {
       initialRouteName="SignIn"
     >
       <Screen name="SignIn" component={SignIn} />
+      <Screen name="FristStep" component={FristStep} />
       <Screen
         name="Home"
         component={Home}

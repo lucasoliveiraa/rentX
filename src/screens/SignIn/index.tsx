@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import {
   StatusBar,
   KeyboardAvoidingView,
@@ -19,6 +20,8 @@ export function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigation = useNavigation();
+
   async function handleSignIn() {
     try {
       const schema = Yup.object().shape({
@@ -37,6 +40,10 @@ export function SignIn() {
         Alert.alert("erro");
       }
     }
+  }
+
+  function handleNewAccount() {
+    navigation.navigate("FristStep");
   }
 
   return (
@@ -79,6 +86,7 @@ export function SignIn() {
               onPress={handleSignIn}
               enabled={(email && password) !== ""}
               loading={false}
+              onPress={handleNewAccount}
             />
             <Button
               title="Criar conta gratuita"
