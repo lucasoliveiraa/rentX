@@ -7,7 +7,7 @@ import { Container, IconContainer, InputText } from "./styles";
 
 interface Props extends TextInputProps {
   iconName: React.ComponentProps<typeof Feather>["name"];
-  value: string;
+  value?: string;
 }
 
 export function Input({ iconName, value, ...rest }: Props) {
@@ -26,8 +26,8 @@ export function Input({ iconName, value, ...rest }: Props) {
   }
 
   return (
-    <Container>
-      <IconContainer isFocused={isFocused}>
+    <Container isFocused={isFocused}>
+      <IconContainer>
         <Feather
           name={iconName}
           size={24}
@@ -37,7 +37,6 @@ export function Input({ iconName, value, ...rest }: Props) {
         />
       </IconContainer>
       <InputText
-        isFocused={isFocused}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         {...rest}
