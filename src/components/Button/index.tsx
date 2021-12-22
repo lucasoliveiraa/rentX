@@ -24,11 +24,11 @@ export function Button({
   const theme = useTheme();
   return (
     <Container
-      {...rest}
       onPress={onPress}
       color={color}
       enabled={enabled}
       loading={loading}
+      {...rest}
     >
       {loading ? (
         <ActivityIndicator color={theme.colors.shape} />
