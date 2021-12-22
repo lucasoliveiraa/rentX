@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { useTheme } from "styled-components";
 import {
   StatusBar,
   KeyboardAvoidingView,
@@ -12,15 +13,20 @@ import * as Yup from "yup";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { PasswordInput } from "../../components/PasswordInput";
-import theme from "../../styles/theme";
 
 import { Container, Header, Title, SubTitle, Form, Footer } from "./styles";
 
-export function SignIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+type NavigationProps = {
+  navigate: (screen: string) => void;
+  goBack: () => void;
+};
 
-  const navigation = useNavigation();
+export function SignIn() {
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+
+  const navigation = useNavigation<NavigationProps>();
+  const theme = useTheme();
 
   async function handleSignIn() {
     try {
@@ -32,7 +38,7 @@ export function SignIn() {
       });
 
       await schema.validate({ email, password });
-      Alert.alert("foiii");
+      navigation.navigate("Home");
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         Alert.alert("Opa", error.message);
@@ -86,11 +92,10 @@ export function SignIn() {
               onPress={handleSignIn}
               enabled={(email && password) !== ""}
               loading={false}
-              onPress={handleNewAccount}
             />
             <Button
               title="Criar conta gratuita"
-              onPress={() => {}}
+              onPress={handleNewAccount}
               color={theme.colors.background_secondary}
               light
               enabled={true}
