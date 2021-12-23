@@ -15,6 +15,7 @@ import { Input } from "../../components/Input";
 import { PasswordInput } from "../../components/PasswordInput";
 
 import { Container, Header, Title, SubTitle, Form, Footer } from "./styles";
+import { useAuth } from "../../hooks/auth";
 
 type NavigationProps = {
   navigate: (screen: string) => void;
@@ -27,6 +28,7 @@ export function SignIn() {
 
   const navigation = useNavigation<NavigationProps>();
   const theme = useTheme();
+  const { signIn } = useAuth();
 
   async function handleSignIn() {
     try {
@@ -38,6 +40,8 @@ export function SignIn() {
       });
 
       await schema.validate({ email, password });
+
+      signIn({ email, password });
       navigation.navigate("Home");
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
