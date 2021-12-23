@@ -37,6 +37,7 @@ export function Input({ iconName, value, ...rest }: Props) {
         />
       </IconContainer>
       <InputText
+        autoCorrect={false}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         {...rest}
