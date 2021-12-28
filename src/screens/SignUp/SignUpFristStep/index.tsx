@@ -28,7 +28,7 @@ type NavigationProps = {
   goBack: () => void;
 };
 
-export function FristStep() {
+export function SignUpFristStep() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [driverLicense, setDriverLicense] = useState("");

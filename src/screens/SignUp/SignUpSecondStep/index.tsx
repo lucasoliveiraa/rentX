@@ -37,7 +37,7 @@ interface Params {
   };
 }
 
-export function SecondStep() {
+export function SignUpSecondStep() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
