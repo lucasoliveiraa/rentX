@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "styled-components";
 import {
@@ -16,6 +16,7 @@ import { PasswordInput } from "../../components/PasswordInput";
 
 import { Container, Header, Title, SubTitle, Form, Footer } from "./styles";
 import { useAuth } from "../../hooks/auth";
+import { database } from "../../database";
 
 type NavigationProps = {
   navigate: (screen: string) => void;
@@ -55,6 +56,16 @@ export function SignIn() {
   function handleNewAccount() {
     navigation.navigate("FristStep");
   }
+
+  useEffect(() => {
+    async function loadData() {
+      const userCollection = database.get("users");
+      const users = await userCollection.query().fetch();
+      console.log(users);
+    }
+
+    loadData();
+  }, []);
 
   return (
     <KeyboardAvoidingView behavior="position" enabled>
