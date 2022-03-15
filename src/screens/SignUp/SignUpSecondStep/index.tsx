@@ -25,7 +25,7 @@ import {
 } from "./styles";
 
 type NavigationProps = {
-  navigate: (screen: string, {}) => void;
+  navigate: (screen: string, { }) => void;
   goBack: () => void;
 };
 

@@ -1,11 +1,11 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { Confirmation } from "../screens/Confirmation";
-import { Home } from "../screens/Home";
+import { Splash } from '../screens/Splash';
 import { SignIn } from "../screens/SignIn";
 import { SignUpFristStep } from "../screens/SignUp/SignUpFristStep";
 import { SignUpSecondStep } from "../screens/SignUp/SignUpSecondStep";
+import { Confirmation } from "../screens/Confirmation";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -15,9 +15,12 @@ export function AuthRoutes() {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="SignIn"
+      initialRouteName="Splash"
     >
-      <Screen name="Home" component={Home} />
+      <Screen
+        name="Splash"
+        component={Splash}
+      />
       <Screen name="SignIn" component={SignIn} />
       <Screen name="SignUpFristStep" component={SignUpFristStep} />
       <Screen name="SignUpSecondStep" component={SignUpSecondStep} />

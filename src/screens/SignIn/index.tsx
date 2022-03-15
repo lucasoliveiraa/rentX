@@ -16,7 +16,6 @@ import { PasswordInput } from "../../components/PasswordInput";
 
 import { Container, Header, Title, SubTitle, Form, Footer } from "./styles";
 import { useAuth } from "../../hooks/auth";
-import { database } from "../../database";
 
 type NavigationProps = {
   navigate: (screen: string) => void;
@@ -43,7 +42,7 @@ export function SignIn() {
       await schema.validate({ email, password });
 
       signIn({ email, password });
-      navigation.navigate("Home");
+      // navigation.navigate("Home");
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         Alert.alert("Opa", error.message);
@@ -54,18 +53,8 @@ export function SignIn() {
   }
 
   function handleNewAccount() {
-    navigation.navigate("FristStep");
+    navigation.navigate("SignUpFristStep");
   }
-
-  useEffect(() => {
-    async function loadData() {
-      const userCollection = database.get("users");
-      const users = await userCollection.query().fetch();
-      console.log(users);
-    }
-
-    loadData();
-  }, []);
 
   return (
     <KeyboardAvoidingView behavior="position" enabled>

@@ -13,7 +13,7 @@ import { Container, Header, HeaderContent, TotalCars, CarList } from "./styles";
 import { LoadAnimation } from "../../components/LoadAnimation";
 
 type NavigationProps = {
-  navigate: (screen: string, {}) => void;
+  navigate: (screen: string, { }) => void;
 };
 
 export function Home() {
@@ -27,18 +27,27 @@ export function Home() {
   }
 
   useEffect(() => {
+    let isMounted = true;
+
     async function loadData() {
       try {
         const response = await api.get("/cars");
-        setCars(response.data);
+        if (isMounted) {
+          setCars(response.data);
+        }
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
     loadData();
+    return () => {
+      isMounted = false;
+    }
   }, []);
 
   return (

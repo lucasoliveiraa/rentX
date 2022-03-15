@@ -24,7 +24,7 @@ import {
 } from "./styles";
 
 type NavigationProps = {
-  navigate: (screen: string, {}) => void;
+  navigate: (screen: string, { }) => void;
   goBack: () => void;
 };
 
@@ -52,7 +52,7 @@ export function SignUpFristStep() {
       const data = { name, email, driverLicense };
       await schema.validate(data);
 
-      navigation.navigate("SecondStep", { user: data });
+      navigation.navigate("SignUpSecondStep", { user: data });
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         Alert.alert("Opa", error.message);
