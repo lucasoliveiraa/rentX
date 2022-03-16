@@ -1,15 +1,15 @@
-import React from 'react';
-import { Feather } from '@expo/vector-icons';
-import { useTheme } from 'styled-components'
-import { 
+import React from "react";
+import { Feather } from "@expo/vector-icons";
+import { useTheme } from "styled-components";
+import {
   Calendar as CustomCalendar,
   LocaleConfig,
-  DateCallbackHandler
-} from 'react-native-calendars';
-import { ptBR } from './localeConfig';
+  DateCallbackHandler,
+} from "react-native-calendars";
+import { ptBR } from "./localeConfig";
 
-LocaleConfig.locales['pt-br'] = ptBR;
-LocaleConfig.defaultLocale = 'pt-br';
+LocaleConfig.locales["pt-br"] = ptBR;
+LocaleConfig.defaultLocale = "pt-br";
 
 interface MarkedDateProps {
   [date: string]: {
@@ -17,7 +17,7 @@ interface MarkedDateProps {
     textColor: string;
     disabled?: boolean;
     disabledTouchEvent?: boolean;
-  },
+  };
 }
 
 interface DayProps {
@@ -37,15 +37,14 @@ function Calendar({ markedDates, onDayPress }: CalendarProps) {
   const theme = useTheme();
 
   return (
-    <CustomCalendar 
-      renderArrow={( direction ) => 
+    <CustomCalendar
+      renderArrow={(direction) => (
         <Feather
           size={24}
           color={theme.colors.text}
-          name={direction === 'left' ? 'chevron-left' : 'chevron-right'}
+          name={direction === "left" ? "chevron-left" : "chevron-right"}
         />
-      }
-
+      )}
       headerStyle={{
         backgroundColor: theme.colors.background_secondary,
         borderBottomWidth: 0.5,
@@ -53,7 +52,6 @@ function Calendar({ markedDates, onDayPress }: CalendarProps) {
         paddingBottom: 10,
         marginBottom: 10,
       }}
-
       theme={{
         textDayFontFamily: theme.fonts.primary_400,
         textDayHeaderFontFamily: theme.fonts.primary_400,
@@ -62,10 +60,9 @@ function Calendar({ markedDates, onDayPress }: CalendarProps) {
         textMonthFontSize: 20,
         monthTextColor: theme.colors.title,
         arrowStyle: {
-          marginHorizontal: -15
-        }
+          marginHorizontal: -15,
+        },
       }}
-
       firstDay={1}
       minDate={new Date()}
       markingType="period"
@@ -75,4 +72,4 @@ function Calendar({ markedDates, onDayPress }: CalendarProps) {
   );
 }
 
-export { Calendar, DayProps, MarkedDateProps }
+export { Calendar, DayProps, MarkedDateProps };

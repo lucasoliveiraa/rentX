@@ -1,7 +1,13 @@
-import React, { useState, useContext, createContext, ReactNode, useEffect } from "react";
+import React, {
+  useState,
+  useContext,
+  createContext,
+  ReactNode,
+  useEffect,
+} from "react";
 import api from "../services/api";
 import { database } from "../database";
-import { User as ModelUser } from '../database/model/User';
+import { User as ModelUser } from "../database/model/User";
 
 interface User {
   id: string;
@@ -21,6 +27,7 @@ interface SignInCredentials {
 interface AuthContextData {
   user: User;
   signIn: (credentials: SignInCredentials) => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -42,17 +49,17 @@ function AuthProvider({ children }: AuthProviderProps) {
       const { token, user } = response.data;
       api.defaults.headers.authorization = `Bearer ${token}`;
 
-      const userColletion = database.get<ModelUser>('users');
+      const userColletion = database.get<ModelUser>("users");
       await database.action(async () => {
         await userColletion.create((newUser) => {
-          newUser.user_id = user.id,
-            newUser.name = user.name,
-            newUser.email = user.email,
-            newUser.driver_license = user.driver_license,
-            newUser.avatar = user.avatar,
-            newUser.token = token
-        })
-      })
+          (newUser.user_id = user.id),
+            (newUser.name = user.name),
+            (newUser.email = user.email),
+            (newUser.driver_license = user.driver_license),
+            (newUser.avatar = user.avatar),
+            (newUser.token = token);
+        });
+      });
 
       setData({ ...user, token });
     } catch (error) {
@@ -60,9 +67,21 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function signOut() {
+    try {
+      const userColletion = database.get<ModelUser>("users");
+      await database.action(async () => {
+        const userSelected = await userColletion.find(data.id);
+        await userSelected.destroyPermanently();
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   useEffect(() => {
     async function loadUserData() {
-      const userColletion = database.get<ModelUser>('users');
+      const userColletion = database.get<ModelUser>("users");
       const response = await userColletion.query().fetch();
 
       if (response.length > 0) {
@@ -72,14 +91,15 @@ function AuthProvider({ children }: AuthProviderProps) {
       }
     }
 
-    loadUserData()
-  })
+    loadUserData();
+  });
 
   return (
     <AuthContext.Provider
       value={{
         user: data,
         signIn,
+        signOut,
       }}
     >
       {children}

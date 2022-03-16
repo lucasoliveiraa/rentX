@@ -36,7 +36,7 @@ export function SignIn() {
         email: Yup.string()
           .required("E-mail obrigatório")
           .email("Digite um e-mail válido"),
-        password: Yup.string().required("A senha é obrigatório"),
+        password: Yup.string().required("A senha é obrigatória"),
       });
 
       await schema.validate({ email, password });
@@ -47,7 +47,10 @@ export function SignIn() {
       if (error instanceof Yup.ValidationError) {
         Alert.alert("Opa", error.message);
       } else {
-        Alert.alert("erro");
+        Alert.alert(
+          "Erro na autenticação",
+          "Ocorreu um erro ao fazer login, verifique as credenciais"
+        );
       }
     }
   }
