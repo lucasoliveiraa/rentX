@@ -36,6 +36,7 @@ import {
   About,
   Acessories,
   Footer,
+  OfflineInfo,
 } from "./styles";
 
 type NavigationProps = {
@@ -146,7 +147,7 @@ export function CarDetails() {
 
           <Rent>
             <Period>{car.period}</Period>
-            <Price>R$ {car.price}</Price>
+            <Price>R$ {netInfo.isConnected === true ? car.price : "..."}</Price>
           </Rent>
         </Details>
         {carUpdated.accessories && (
@@ -168,7 +169,14 @@ export function CarDetails() {
         <Button
           title="Escolher período do aluguel"
           onPress={handleScheduling}
+          enabled={netInfo.isConnected === true}
         />
+
+        {netInfo.isConnected === false && (
+          <OfflineInfo>
+            Conecte-se a Internet para ver mais detalhes e agendar seu carro.
+          </OfflineInfo>
+        )}
       </Footer>
     </Container>
   );
