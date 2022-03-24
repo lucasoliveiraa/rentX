@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar, StyleSheet } from "react-native";
 import { useTheme } from "styled-components";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { CarDTO } from "../../dtos/CarDTO";
+import { Car as ModelCar } from "../../database/model/Car";
+import { useNetInfo } from "@react-native-community/netinfo";
+import api from "../../services/api";
 
 import Animated, {
   Extrapolate,
@@ -45,6 +48,9 @@ interface Params {
 }
 
 export function CarDetails() {
+  const [carUpdated, setCarUpdated] = useState<CarDTO>({} as CarDTO);
+
+  const netInfo = useNetInfo();
   const navigation = useNavigation<NavigationProps>();
   const route = useRoute();
   const { car } = route.params as Params;
@@ -81,6 +87,17 @@ export function CarDetails() {
     navigation.goBack();
   }
 
+  useEffect(() => {
+    async function fetchCarUpdated() {
+      const response = await api.get(`/cars/${car.id}`);
+      setCarUpdated(response.data);
+    }
+
+    if (netInfo.isConnected === true) {
+      fetchCarUpdated();
+    }
+  }, [netInfo.isConnected]);
+
   return (
     <Container>
       <StatusBar
@@ -101,7 +118,13 @@ export function CarDetails() {
 
         <Animated.View style={sliderCarsStyleAnimation}>
           <CarImages>
-            <ImageSlider imagesUrl={car.photos} />
+            <ImageSlider
+              imagesUrl={
+                !!carUpdated.photos
+                  ? carUpdated.photos
+                  : [{ id: car.thumbnail, photo: car.thumbnail }]
+              }
+            />
           </CarImages>
         </Animated.View>
       </Animated.View>
@@ -126,16 +149,17 @@ export function CarDetails() {
             <Price>R$ {car.price}</Price>
           </Rent>
         </Details>
-
-        <Acessories>
-          {car.accessories.map((accessory) => (
-            <Accessory
-              key={accessory.type}
-              name={accessory.name}
-              icon={getAccessoryIcon(accessory.type)}
-            />
-          ))}
-        </Acessories>
+        {carUpdated.accessories && (
+          <Acessories>
+            {carUpdated.accessories.map((accessory) => (
+              <Accessory
+                key={accessory.type}
+                name={accessory.name}
+                icon={getAccessoryIcon(accessory.type)}
+              />
+            ))}
+          </Acessories>
+        )}
 
         <About>{car.about}</About>
       </Animated.ScrollView>
